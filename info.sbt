@@ -1,6 +1,6 @@
 name := "bowtie"
 
-description := "A bundle for bowtie tool"
+description := "A bundle for bowtie2 tool"
 
 homepage := Some(url("https://github.com/ohnosequences/bowtie"))
 

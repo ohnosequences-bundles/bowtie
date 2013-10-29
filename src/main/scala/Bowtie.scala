@@ -5,19 +5,22 @@ import sys.process._
 import java.io.File
 import java.net.URL
 
-case object Boost extends YumBundle("boost")
+abstract class AbstractBowtie(bowtieN: String, version: String) extends Bundle() {
 
-case object Bowtie extends Bundle(Boost :+: ∅) {
+  val packageName: String = bowtieN + "-" + version
 
   def install[D <: AnyDistribution](distribution: D): InstallResults = {
         // dowloading archive
-     ( {new URL("http://sourceforge.net/projects/bowtie-bio/files/bowtie2/2.1.0/bowtie2-2.1.0-linux-x86_64.zip/download") #> new File("bowtie2-2.1.0.zip")}
-        // extracting archive (with assumption that it contains bowtie2-2.1.0 folder inside)
-    -&- "unzip bowtie2-2.1.0.zip"
+     ( {new URL("http://sourceforge.net/projects/bowtie-bio/files/"+bowtieN+"/"+version+"/"+packageName+"-linux-x86_64.zip/download") #> new File(packageName+".zip")}
+        // extracting archive (with assumption that it contains <packageName> folder inside)
+    -&- Seq("unzip", packageName+".zip")
         // copying binaries to PATH
-    -&- "cp bowtie2-2.1.0/bowtie2* /usr/bin/"
+    -&- Seq("bash", "-c", "cp " + packageName+"/bowtie* /usr/bin/")
     ->- success(name + " is installed")
      )
   }
 
 }
+
+case object Bowtie  extends AbstractBowtie("bowtie", "1.0.0")
+case object Bowtie2 extends AbstractBowtie("bowtie2", "2.1.0")
