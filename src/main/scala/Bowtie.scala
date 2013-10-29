@@ -5,9 +5,9 @@ import sys.process._
 import java.io.File
 import java.net.URL
 
-case object Bowtie extends Bundle(Boost :: HNil) {
+case object Boost extends YumBundle("boost")
 
-  val metadata = generated.metadata.Bowtie
+case object Bowtie extends Bundle(Boost :+: ∅) {
 
   def install[D <: AnyDistribution](distribution: D): InstallResults = {
         // dowloading archive
@@ -16,7 +16,7 @@ case object Bowtie extends Bundle(Boost :: HNil) {
     -&- "unzip bowtie2-2.1.0.zip"
         // copying binaries to PATH
     -&- "cp bowtie2-2.1.0/bowtie2* /usr/bin/"
-    ->- success(metadata+" is installed")
+    ->- success(name + " is installed")
      )
   }
 
