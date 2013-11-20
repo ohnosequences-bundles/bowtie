@@ -1,4 +1,4 @@
-package ohnosequences.statika
+package ohnosequences.statika.bundles
 
 import ohnosequences.statika._
 import sys.process._
@@ -9,7 +9,7 @@ abstract class AbstractBowtie(bowtieN: String, version: String) extends Bundle()
 
   val packageName: String = bowtieN + "-" + version
 
-  def install[D <: AnyDistribution](distribution: D): InstallResults = {
+  override def install[D <: AnyDistribution](d: D): InstallResults = {
         // dowloading archive
      ( {new URL("http://sourceforge.net/projects/bowtie-bio/files/"+bowtieN+"/"+version+"/"+packageName+"-linux-x86_64.zip/download") #> new File(packageName+".zip")}
         // extracting archive (with assumption that it contains <packageName> folder inside)
